@@ -50,8 +50,11 @@ class AppealRecordPopup extends Component {
             sectionHeading: "Complete the Appeal Record and Transcript",
             iconSrc: "/icons/icon-share.svg",
             iconClass: "info-modal-icon",
-            deadlinePhrase: {startWith: "You have ", endWith: " to file and serve your documents after submitting the Notice of Appeal."},
-            deadline: " 60 days ",
+            deadlinePhrases: [{
+                    startWith: "You have ",
+                    deadline: " 60 days ",
+                    endWith: " to file and serve your documents after submitting the Notice of Appeal."
+                }],
             lineHeight: '241px',
             contentMap: contentMap
         }, {
@@ -59,8 +62,8 @@ class AppealRecordPopup extends Component {
             sectionHeading: "Were you served with a Notice of Appearance or Cross Appeal?",
             iconSrc :"/icons/icon-info.svg",
             iconClass: "info-modal-icon",
-            content: ["If you are served with a copy of the respondent's Notice of Appearance or Cross Appeal, you do not have to respond " +
-                    "to these documents.  These documents are for your awareness only."]
+            content: [`If you are served with a copy of the respondent's Notice of Appearance or Cross Appeal, you do not have to respond 
+                        to these documents.  These documents are for your awareness only.`]
         }]
     }
 
