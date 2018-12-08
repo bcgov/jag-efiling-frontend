@@ -11,12 +11,13 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.2.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
-    "react-tooltip": "^3.6.0",
+    "react-tooltip": "^3.8.1",
     "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "^2.0.4",
+    "snyk": "^1.116.2"
   },
   "devDependencies": {
     "babel-jest": "^22.4.3",
@@ -40,7 +41,9 @@
     "build": "react-scripts build",
     "test": "PUBLIC_URL='' jest -u",
     "eject": "react-scripts eject",
-    "test:coverage": "PUBLIC_URL='' jest --coverage --forceExit"
+    "test:coverage": "PUBLIC_URL='' jest --coverage --forceExit",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "jest": {
     "testEnvironment": "node",
@@ -55,5 +58,6 @@
       "react"
     ]
   },
-  "homepage": "/court-of-appeal"
+  "homepage": "/court-of-appeal",
+  "snyk": true
 }
