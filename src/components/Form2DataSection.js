@@ -25,27 +25,13 @@ class Form2DataSection extends React.Component {
                         </div>
                         <div className="row  proceeding-style">
                             <div className="col-lg-1 col-md-1 col-sm-2 col-xs-2 proceeding-style-col">AND:</div>
-
-                                <div className="col-lg-9 col-md-9 col-sm-8 col-xs-8" id="respondent-name" >{
-                                    this.props.data.respondents.map( (item) => item.name ).join(', ') 
-                                }
-                                </div>
-                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 proceeding-style-col">Respondent{this.props.data.respondents.length > 1 ? 's' : '' }</div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="row proceeding-style">
-                            <div className="col-lg-2 col-md-2 col-sm-6 col-xs-6 respondent-name-label">
-                                <div style={{whiteSpace: 'nowrap'}}>
-                                    Respondent name(s) &nbsp;
-                                    <i className="fa fa-question-circle" aria-hidden="true" data-tip="Select the names of all those responding to the appeal"></i>
-                                </div>
-                            </div>
                             <div id="respondentSelectionList" className="col-lg-10 col-md-10 col-sm-6 col-xs-6 respondent-list">
                                 {this.renderRespondentRow()}
                             </div>
+                            <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 proceeding-style-col">Respondent{this.props.data.respondents.length > 1 ? 's' : '' }</div>
                         </div>
                     </div>
+                    
                     <div className="row">
                         <div className="row proceeding-style">
                             <div className="col-lg-2 col-md-2 col-sm-6 col-xs-6 respondent-name-label">

@@ -93,6 +93,7 @@
 
 .respondent-list {
     margin-top: -5px;
+    max-width: 75%;
 }
 .respondent-row {
     display: flex;
