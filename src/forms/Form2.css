@@ -98,6 +98,7 @@
 .respondent-row {
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
     padding: 5px;
 }
 .respondent-checkbox {

@@ -61,7 +61,7 @@ class Form2 extends Component {
                         selected: false
                     }
                 ],
-                selectedContactIndex: 0,
+                selectedContactIndex: undefined,
                 phone: '',
                 useServiceEmail: false,
                 sendNotifications: false,
@@ -101,7 +101,7 @@ class Form2 extends Component {
             if (!data.error) {
                 this.setState({notFoundError: ''});
                 const appellants = this.mapIncomingData(data.parties.appellants);
-                const respondents = this.mapIncomingData(data.parties.respondents);
+                const respondents = this.selectAllRespondents(this.mapIncomingData(data.parties.respondents));
                 if (appellants && respondents) {
                     this.setState(update(this.state, {document: {appellants: {$set: appellants}}}));
                     this.setState(update(this.state, {document: {respondents: {$set: respondents}}}));
@@ -373,6 +373,21 @@ class Form2 extends Component {
 
     startNewSearch() {
         this.setState(this.initialState(this.state.formSevenNumber));
+    }
+
+    /**
+     * Select All Respondents by default for a new form 2.
+     * @param respondents
+     * @returns {*}
+     */
+    selectAllRespondents(respondents) {
+        if (!respondents) return []
+        return respondents.map((respondent) => {
+           return {
+               ...respondent,
+               selected: true
+           }
+        });
     }
 }
 

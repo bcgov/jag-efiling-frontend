@@ -1,5 +1,5 @@
 let updateDocument = function(document, event) {
-    console.log("Target name: ", event.target.name)
+
     const field = event.target.name.split(".")[1];
     if (['addressLine1', 'addressLine2', 'city', 'postalCode'].includes(field)){
         let respondents = document.respondents.slice();
@@ -17,6 +17,14 @@ let updateDocument = function(document, event) {
     }
     if ('name' === field) {
         document.selectedContactIndex = event.target.value;
+    } else if ('respondentList' === field) {
+        if ('clear' === event.action ) {
+            document.respondents.forEach((respondent) => respondent.selected = false)
+        } else if ('selectAll' === event.action) {
+            document.respondents.forEach((respondent) => respondent.selected = true);
+        } else {
+            document.respondents[event.target.value].selected = event.target.selected;
+        }
     }
     if (field.startsWith('respondentCheckbox')) {
         let index = field.substring(field.indexOf('-') + 1, field.length);

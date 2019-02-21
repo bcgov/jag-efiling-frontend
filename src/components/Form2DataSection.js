@@ -25,36 +25,14 @@ class Form2DataSection extends React.Component {
                         </div>
                         <div className="row  proceeding-style">
                             <div className="col-lg-1 col-md-1 col-sm-2 col-xs-2 proceeding-style-col">AND:</div>
-                            <div id="respondentSelectionList" className="col-lg-10 col-md-10 col-sm-6 col-xs-6 respondent-list">
+                            <div id="respondentSelectionList" className="col-lg-9 col-md-9 col-sm-6 col-xs-6 ">
                                 {this.renderRespondentRow()}
                             </div>
                             <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 proceeding-style-col">Respondent{this.props.data.respondents.length > 1 ? 's' : '' }</div>
                         </div>
                     </div>
                     
-                    <div className="row">
-                        <div className="row proceeding-style">
-                            <div className="col-lg-2 col-md-2 col-sm-6 col-xs-6 respondent-name-label">
-                                <div style={{whiteSpace: 'nowrap'}}>
-                                    Which respondent should we use to auto fill the address&nbsp;
-                                    <i className="fa fa-question-circle" aria-hidden="true" data-tip="Which respondent's address should be used for service?"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row proceeding-style">
-                            <div className="col-lg-10 col-md-10 col-sm-6 col-xs-6">
-                                <select id="chosenRespondent"
-                                        className="form-select"
-                                        onChange={this.props.handleFieldChange}
-                                        name={"respondent.name"}
-                                        disabled={this.props.readOnly}
-                                        value={this.props.data.selectedContactIndex}
-                                >
-                                    {this.props.data.respondents.map( (respondent, index) => <option key={index} value={index} >{respondent.name}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    {this.getContactSelect()}
                     <div className="row">
                         <div className="row proceeding-style">
                             <div className="col-lg-12 address-row-header">
@@ -244,8 +222,32 @@ class Form2DataSection extends React.Component {
     }
 
     renderRespondentRow() {
-        return this.props.data.respondents.map( (respondent, index) =>
-            <div key={index} className={'respondent-row'}>
+        if (!this.props.data.respondents) {
+            return null;
+        }
+
+        if (this.props.data.respondents.length === 1) {
+            return  <div className="respondent-list respondent-row">
+                {this.props.data.respondents[0].name}
+            </div>
+        }
+        let selectall = <input
+            id={"respondent-selectAll"}
+            type="checkbox"
+            name={"selectall.respondentList"}
+            onChange={this.selectOrClearRespondents.bind(this)}
+            checked={this.props.data.respondents.length === this.getSelectedRespondents().length}
+        />;
+        let clearall = <input
+            id={"respondent-clear"}
+            type="checkbox"
+            name={"clear.respondentList"}
+            onChange={this.selectOrClearRespondents.bind(this)}
+            checked={this.getSelectedRespondents().length < 1}
+        />;
+
+        let content = this.props.data.respondents.map( (respondent, index) =>
+            <div key={index} style={{display: 'flex', flexWrap: 'nowrap', flexFlow: 'row'}}>
                 <div className={'respondent-checkbox'}>
                     <input
                         id={`respondentCheckbox-${index}`}
@@ -256,9 +258,72 @@ class Form2DataSection extends React.Component {
                     />
                 </div>
                 <div className={'respondent-name'}>
-                    <div >{respondent.name}</div>
+                    <div >{respondent.name}{this.index === this.props.data.respondents.length - 1? '': ', '}</div>
                 </div>
-            </div>)
+            </div>);
+
+        return (
+            <div className="respondent-list respondent-row">
+                    {content}
+                <div className={"respondent-row"} >
+                        <div style={{paddingRight: '20px'}}>
+                        Clear all
+                        </div>
+                        <div style={{paddingRight: '20px'}}>
+                        {clearall}
+                        </div>
+                        <div style={{paddingRight: '20px'}}>
+                          Select all
+                        </div>
+                        <div >
+                            {selectall}
+                        </div>
+                </div>
+            </div>
+        );
+    }
+
+    getSelectedRespondents() {
+        return this.props.data.respondents.filter((respondent) => respondent.selected)
+    }
+
+    selectOrClearRespondents(e) {
+        let id = e.target.id
+        let action = id.substring(id.indexOf('-')+1, id.length);
+
+        this.props.handleFieldChange({target: {name: e.target.name}, action})
+    }
+
+    getContactSelect() {
+        let disabled = this.getSelectedRespondents().length < 1;
+        let opacity = disabled ? '.5' : '1';
+
+        return <div className="row">
+                        <div className="row proceeding-style">
+                            <div className="col-lg-2 col-md-2 col-sm-6 col-xs-6 respondent-name-label">
+                                <div style={{whiteSpace: 'nowrap', opacity: opacity}}>
+                                    Select a respondent to auto fill their contact address&nbsp;
+                                    <i className="fa fa-question-circle" aria-hidden="true" data-tip="Which respondent's address should be used for service?"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row proceeding-style">
+                            <div className="col-lg-offset-1 col-lg-9 col-md-9 col-sm-6 col-xs-6">
+                                <select id="chosenRespondent"
+                                        className="form-select"
+                                        onChange={this.props.handleFieldChange}
+                                        name={"respondent.name"}
+                                        disabled={this.props.readOnly || disabled}
+                                        value={this.props.data.selectedContactIndex}
+                                        style={{minWidth: '100%', paddingLeft: '85px'}}
+                                >
+                                    <option></option>
+                                    {this.props.data.respondents.filter( (respondent) => respondent.selected)
+                                        .map( (respondent, index) => <option key={index} value={index} >{respondent.name}</option>)}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
     }
 }
 
